@@ -14,7 +14,6 @@ const Statistics = (props) => {
     </div>
   );
 };
-
 const Feedback = (props) => {
   if (props.allTheClicks.length === 0) {
     return <div> No feedback given </div>;
