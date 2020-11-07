@@ -3,6 +3,13 @@ import Filter from './components/Filter';
 import PersonForm from './components/PersonForm';
 import Persons from './components/Persons';
 
+import axios from 'axios';
+
+axios.get('http://localhost:3001/notes').then((response) => {
+  const notes = response.data;
+  console.log(notes);
+});
+
 const initialData = [
   { name: 'Ermias Asmelash', number: '0911 09 33 34' },
   { name: 'Zula Tiku', number: '0913 09 73 54' },
