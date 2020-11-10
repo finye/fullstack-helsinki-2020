@@ -1,24 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Filter from './components/Filter';
 import PersonForm from './components/PersonForm';
 import Persons from './components/Persons';
 
 import axios from 'axios';
 
-axios.get('http://localhost:3001/notes').then((response) => {
-  const notes = response.data;
-  console.log(notes);
-});
-
-const initialData = [
-  { name: 'Ermias Asmelash', number: '0911 09 33 34' },
-  { name: 'Zula Tiku', number: '0913 09 73 54' },
-  { name: 'Titay Behailu', number: '0912 02 93 41' },
-  { name: 'Haki Berhane', number: '0910 09 03 04' },
-];
 const App = (props) => {
-  const [persons, setPersons] = useState(initialData);
+  const [persons, setPersons] = useState([]);
   const [searched, setNewSearched] = useState('');
+
+  useEffect(() => {
+    console.log('effect');
+    axios.get('http://localhost:3001/persons').then((response) => {
+      console.log('promise fulfilled');
+      setPersons(response.data);
+    });
+  }, []);
 
   const onNameSearched = (event) => {
     setNewSearched(event.target.value);
