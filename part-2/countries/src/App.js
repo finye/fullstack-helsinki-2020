@@ -3,6 +3,11 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Statistics from './Statistics';
 
+const params = {
+  access_key: process.env.REACT_APP_API_KEY,
+  query: 'New York',
+};
+
 const App = () => {
   const [data, setData] = useState([]);
   const [searched, setSearched] = useState('');
@@ -12,6 +17,17 @@ const App = () => {
     axios.get('https://restcountries.eu/rest/v2/all').then((response) => {
       setData(response.data);
     });
+  }, []);
+  useEffect(() => {
+    const fetchWeather = async () => {
+      const { data } = await axios.get('http://api.weatherstack.com/current', {
+        params,
+      });
+
+      console.log(data);
+    };
+
+    fetchWeather();
   }, []);
 
   const countryNames = data.map((d, index) => d.name);
