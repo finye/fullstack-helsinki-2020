@@ -1,10 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+
+const API_key = process.env.REACT_APP_API_KEY;
 
 const Country = ({ country, data }) => {
+  const [weatherData, setWeatherData] = useState('');
   const [currentCountry] = country;
   const { population, capital, languages, flag } = data.find((c) => {
     return c.name.toLowerCase() === currentCountry.toLowerCase();
   });
+
+  useEffect(() => {
+    axios
+      .get(
+        `http://api.openweathermap.org/data/2.5/weather?q=${capital}&appid=${API_key}&units=metric`
+      )
+
+      .then((response) => {
+        setWeatherData(response.data.main.temp);
+        console.log('weather data', response.data.main.temp);
+
+        // const dataWeather = response.data;
+      });
+  }, [capital]);
 
   return (
     <div>
@@ -16,13 +34,15 @@ const Country = ({ country, data }) => {
         return <ol key={l.name.toUpperCase()}> {l.name} </ol>;
       })}
       <img style={{ width: 200, height: 200 }} src={flag} alt='Flag'></img>
+      <br />
+      <b>Temperature:{weatherData}</b>
     </div>
   );
 };
 
 const Statistics = (props) => {
-  const [countryName, setCountryName] = useState('');
-  const clickedCountryArray = countryName !== '' && [countryName];
+  const [countryName, setCountryName] = useState();
+  const clickedCountryArray = countryName && [countryName];
 
   if (props.searchedCountry.length > 10) {
     return (
@@ -32,9 +52,19 @@ const Statistics = (props) => {
       </div>
     );
   }
+
   if (props.searchedCountry.length === 1) {
-    return <Country country={props.searchedCountry} data={props.data} />;
+    return (
+      <div>
+        <Country
+          country={props.searchedCountry}
+          data={props.data}
+          weatherData={props.weatherData}
+        />
+      </div>
+    );
   }
+
   return (
     <div>
       {props.searchedCountry.map((name, index) => (
@@ -49,7 +79,8 @@ const Statistics = (props) => {
           </button>
         </div>
       ))}
-      {countryName !== '' && (
+
+      {countryName && (
         <Country country={clickedCountryArray} data={props.data} />
       )}
     </div>
