@@ -5,6 +5,8 @@ const API_key = process.env.REACT_APP_API_KEY;
 
 const Country = ({ country, data }) => {
   const [weatherData, setWeatherData] = useState('');
+  const [wind, setWind] = useState('');
+  const [icon, setIcon] = useState('');
   const [currentCountry] = country;
   const { population, capital, languages, flag } = data.find((c) => {
     return c.name.toLowerCase() === currentCountry.toLowerCase();
@@ -18,9 +20,11 @@ const Country = ({ country, data }) => {
 
       .then((response) => {
         setWeatherData(response.data.main.temp);
+        setWind(response.data.wind.speed);
         console.log('weather data', response.data.main.temp);
-
-        // const dataWeather = response.data;
+        console.log('response from weather', response.data);
+        console.log(response.data.weather[0].icon);
+        setIcon(response.data.weather[0]);
       });
   }, [capital]);
 
@@ -35,7 +39,14 @@ const Country = ({ country, data }) => {
       })}
       <img style={{ width: 200, height: 200 }} src={flag} alt='Flag'></img>
       <br />
-      <b>Temperature:{weatherData}</b>
+      <b>Temperature: {Math.round(weatherData)} &deg;C </b> <br />
+      <img
+        alt='Weather'
+        src={`http://openweathermap.org/img/w/${icon.icon}.png`}
+      ></img>{' '}
+      {icon.description}
+      <br /> <br />
+      <b>Wind: {wind} m/s</b>
     </div>
   );
 };

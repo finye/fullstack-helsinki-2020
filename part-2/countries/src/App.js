@@ -18,7 +18,7 @@ const App = (props) => {
       setData(response.data);
     });
   }, []);
-  console.log(data, 'Countries data');
+  //console.log(data, 'Countries data');
 
   /* useEffect(() => {
     const fetchWeather = async () => {
