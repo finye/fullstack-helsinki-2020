@@ -5,16 +5,25 @@ import Persons from './components/Persons';
 
 import axios from 'axios';
 
-const App = (props) => {
+const App = () => {
   const [persons, setPersons] = useState([]);
   const [searched, setNewSearched] = useState('');
 
   useEffect(() => {
-    console.log('effect');
+    /*     console.log('effect');
     axios.get('http://localhost:3001/persons').then((response) => {
       console.log('promise fulfilled');
       setPersons(response.data);
-    });
+    }) */
+
+    const fetchPersons = async () => {
+      const url = 'http://localhost:3001/persons';
+      const response = await axios.get(url);
+
+      setPersons(response.data);
+    };
+
+    fetchPersons();
   }, []);
 
   const onNameSearched = (event) => {

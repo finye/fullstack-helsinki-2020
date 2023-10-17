@@ -1,10 +1,10 @@
 import React from 'react';
 
-const Persons = (props) => {
-  const searchedPerson = props.persons.filter(
+const Persons = ({ persons, searched }) => {
+  const searchedPerson = persons.filter(
     (person) =>
-      person.name.toLowerCase().includes(props.searched.toLowerCase()) ||
-      person.number.includes(props.searched)
+      person.name.toLowerCase().includes(searched.toLowerCase()) ||
+      person.number.includes(searched)
   );
 
   return (

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const PersonForm = (props) => {
+const PersonForm = ({ persons, setPersons }) => {
   const [newName, setNewName] = useState('');
   const [newNumber, setNewNumber] = useState('');
 
@@ -20,14 +20,14 @@ const PersonForm = (props) => {
     };
 
     const nameExists =
-      props.persons.filter((person) => person.name === newName).length > 0;
+      persons.filter((person) => person.name === newName).length > 0;
 
     if (nameExists) {
       alert(`${newName} is already added to phonebook`);
       return;
     }
 
-    props.setPersons(props.persons.concat(nameObject));
+    setPersons(persons.concat(nameObject));
     setNewName('');
     setNewNumber('');
   };

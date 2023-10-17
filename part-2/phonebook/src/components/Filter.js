@@ -1,10 +1,9 @@
 import React from 'react';
 
-const Filter = (props) => {
+const Filter = ({ searched, onNameSearched }) => {
   return (
     <div>
-      filter list by name{' '}
-      <input value={props.searched} onChange={props.onNameSearched} />
+      filter list by name <input value={searched} onChange={onNameSearched} />
     </div>
   );
 };
